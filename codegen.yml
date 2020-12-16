@@ -1,0 +1,26 @@
+schema:
+    - './src/modules/*/schema/*.graphql'
+overwrite: true
+documents: []
+config: {}
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+generates:
+    src/generated/_graphql.ts:
+        config:
+            constEnums: true
+            avoidOptionals: true
+            namingConvention:
+                enumValues: change-case#upperCase
+        plugins:
+            - add: 
+                content: "/* @ts-ignore */\n/* tslint:disable */\n/* auto generated, do not edit */"
+            - typescript
+            - typescript-resolvers
+    _schema.graphql:
+        plugins:
+            - schema-ast
+
+require:
+    - 'ts-node/register/transpile-only'

@@ -1,0 +1,6 @@
+type Query {
+    """
+    Get current version of the server
+    """
+    version: String!
+}

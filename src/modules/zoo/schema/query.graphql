@@ -1,0 +1,10 @@
+extend type Query {
+    """
+    Get all crocodiles in our zoo
+    """
+    crocodiles: [Crocodile!]!
+    """
+    Get specific crocodile
+    """
+    crocodile(id: Int!): Crocodile
+}

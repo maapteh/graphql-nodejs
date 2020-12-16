@@ -1,0 +1,28 @@
+.idea/
+
+node_modules/
+build/
+dist
+temp/
+coverage/
+
+*.log
+.npm
+# we are yarn repo now
+package-lock.json
+
+# developer can have it's own favorite profile
+.env.developer
+
+.flamegraphs
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+yalc.lock
+.yalc/
+
+*/.vscode
+!./.vscode/launch.json
+!./.vscode/settings.json

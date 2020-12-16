@@ -1,0 +1,77 @@
+"""
+For how long to cache queries, fields
+"""
+directive @cacheControl(
+    maxAge: Int
+    scope: CacheControlScope
+) on OBJECT | FIELD_DEFINITION | INTERFACE
+
+"""
+Complexity implementation
+"""
+directive @complexity(
+    """
+    Complexity of the query, field
+    """
+    value: Int!
+
+    """
+    Optional multipliers
+    """
+    multipliers: [String!]
+) on FIELD_DEFINITION
+
+"""
+cache control
+"""
+enum CacheControlScope {
+    """
+    Personal data, based on jwt token and locale (see server.ts)
+    """
+    PRIVATE
+
+    """
+    Public data, non personal
+    """
+    PUBLIC
+}
+
+type Query {
+    """
+    Get specific crocodile
+    """
+    crocodile(id: Int!): Crocodile
+
+    """
+    Get all crocodiles in our zoo
+    """
+    crocodiles: [Crocodile!]!
+
+    """
+    Get current version of the server
+    """
+    version: String!
+}
+
+"""
+Crocodile
+"""
+type Crocodile {
+    id: Int!
+    name: String!
+    sex: Gender!
+    birthDate: String!
+    age: Int!
+}
+
+input CrocodileInput {
+    name: String!
+    sex: Gender!
+    birthDate: String!
+    age: Int!
+}
+
+enum Gender {
+    M
+    F
+}

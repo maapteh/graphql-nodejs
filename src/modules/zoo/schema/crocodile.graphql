@@ -1,0 +1,22 @@
+"""
+Crocodile
+"""
+type Crocodile @cacheControl(maxAge: 0, scope: PRIVATE) {
+    id: Int!
+    name: String!
+    sex: Gender!
+    birthDate: String!
+    age: Int!
+}
+
+input CrocodileInput {
+    name: String!
+    sex: Gender!
+    birthDate: String!
+    age: Int!
+}
+
+enum Gender {
+    M
+    F
+}

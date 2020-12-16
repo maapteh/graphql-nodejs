@@ -1,0 +1,5 @@
+export enum GenericError {
+    UNEXPECTED_ERROR = 'UNEXPECTED_ERROR',
+    NOT_FOUND = 'NOT_FOUND',
+    UNAUTHORIZED = 'UNAUTHORIZED',
+}

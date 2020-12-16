@@ -1,0 +1,13 @@
+"""
+Complexity implementation
+"""
+directive @complexity(
+    """
+    Complexity of the query, field
+    """
+    value: Int!
+    """
+    Optional multipliers
+    """
+    multipliers: [String!]
+) on FIELD_DEFINITION
