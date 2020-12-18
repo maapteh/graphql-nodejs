@@ -12,7 +12,7 @@ const resolvers = mergeResolvers(resolversArray);
 const typeDefs = mergeTypeDefs(typeDefsArray, { useSchemaDefinition: false });
 
 export const ZooModule = createModule({
-    id: 'basket',
+    id: 'zoo',
     providers: [
         ZooProvider,
         ZooDataloader,
