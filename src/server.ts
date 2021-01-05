@@ -17,7 +17,7 @@ import { Route } from './constants/route';
 import { config } from './config';
 import { logger } from './helpers/logger';
 import { HttpHeaderKey } from './constants/http';
-// import { executor } from './executor';
+import { executor } from './executor';
 
 const atob = require('atob');
 
@@ -97,8 +97,7 @@ export const bootstrap: any = async (
             };
         },
 
-        // FIXME: https://github.com/zalando-incubator/graphql-jit/issues/90#issuecomment-701447123
-        // executor: executor(schema),
+        executor: executor(schema),
 
         // on production disable all development features
         introspection: isProduction ? false : tracing,
