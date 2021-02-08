@@ -2,7 +2,7 @@ import { createModule } from 'graphql-modules';
 import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { ZooProvider } from './providers/zoo';
-import { ZooDataloader } from './providers/zoo.dataloader';
+// import { ZooDataloader } from './providers/zoo.dataloader';
 
 const resolversArray = loadFilesSync(`${__dirname}/resolvers`, {
     extensions: ['ts', 'js'],
@@ -15,7 +15,7 @@ export const ZooModule = createModule({
     id: 'zoo',
     providers: [
         ZooProvider,
-        ZooDataloader,
+        // ZooDataloader,
     ],
     resolvers: resolvers,
     typeDefs: typeDefs,
