@@ -44,3 +44,7 @@ curl \
   --data '{ "query": "{ version }" }' \
   http://localhost:4000/graphql
 ```
+
+## Talks
+- GraphQL before GraphQL - https://www.youtube.com/watch?v=gb1R-fWP1Yw
+- GraphQL at Facebook by Adam D.I. Kramer - https://www.youtube.com/watch?v=yKjIGL3dfcA
