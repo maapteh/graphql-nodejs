@@ -10,6 +10,13 @@
 http://localhost:4000/graphql
 
 
+## Setup
+We are testing three NodeJS versions
+
+- `src/apollo.ts` Apollo with simple typeDefs and resolvers merged, with graphql-jit executor
+- `src/index.ts` Apollo setup with the graphql-modules, with graphql-jit executor
+- `src/helix.ts` Helix standard
+
 ## Profiling
 
 Two profile dist apps:

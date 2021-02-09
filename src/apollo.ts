@@ -1,8 +1,7 @@
-import 'reflect-metadata';
-
 import express from 'express';
-import { GraphQLError, separateOperations } from 'graphql';
-import { ApolloServer, SchemaDirectiveVisitor } from 'apollo-server-express';
+import { GraphQLError } from 'graphql';
+import { gql } from 'graphql-modules';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import { RedisCache } from 'apollo-server-cache-redis';
 import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
@@ -15,7 +14,6 @@ import { config } from './config';
 import { logger } from './helpers/logger';
 import { HttpHeaderKey } from './constants/http';
 import { executor } from './executor';
-import { AppModule } from './modules';
 import { getApplicationArguments } from './config/arguments';
 import { createContext } from './context/create-context';
 import { createPluginRequestDidStart } from './plugins/create-request-did-start';
@@ -30,13 +28,6 @@ const ON = 'on';
 // Metrics for apollo engine
 const CLIENT_NAME_UNKNOWN = 'Unknown Client';
 const CLIENT_VERSION_UNKNOWN = 'Unversioned';
-
-
-const schema = AppModule.createSchemaForApollo();
-
-SchemaDirectiveVisitor.visitSchemaDirectives(schema, {
-    //
-});
 
 const PORT = parseInt((args as any).port, 10);
 
@@ -55,8 +46,41 @@ const collectMetrics = args.prometheus === ON;
 const proxy = args.proxy;
 const agent = proxy ? new HttpsProxyAgent(proxy) : false;
 
-const requestDidStart = createPluginRequestDidStart(schema);
+
+const typeDefs = gql`
+    type Query {
+        version: String!
+    }
+
+    directive @complexity(
+        value: Int!
+            multipliers: [String!]
+    ) on FIELD_DEFINITION
+
+    enum CacheControlScope {
+        PRIVATE
+        PUBLIC
+    }
+
+    directive @cacheControl(
+        maxAge: Int
+        scope: CacheControlScope
+    ) on OBJECT | FIELD_DEFINITION | INTERFACE
+`;
+
+const resolvers = {
+    Query: {
+        version: () => process.env.npm_package_version,
+    },
+};
+
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers
+});
+
 const executorFn = executor(schema);
+const requestDidStart = createPluginRequestDidStart(schema);
 
 const server = new ApolloServer({
     schema,
