@@ -1,4 +1,4 @@
-import { Crocodile, Gender } from "@app/generated/_graphql";
+import { Crocodile, Gender } from "../../../generated/_graphql";
 
 export type RawCrocodile = {
     age: number;

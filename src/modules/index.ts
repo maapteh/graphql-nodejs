@@ -5,7 +5,7 @@ import { ZooModule } from './zoo';
 export const AppModule = createApplication({
     modules: [
         CommonModule,
-        ZooModule,
+        // ZooModule,
     ],
     // visitSchemaDirectives: true,
 });

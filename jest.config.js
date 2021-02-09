@@ -11,9 +11,5 @@ module.exports = {
         '^.+\\.ts?$': 'ts-jest',
         '.*': 'babel-jest',
     },
-    moduleNameMapper: {
-        '^@app/(.*)$': '<rootDir>/src/$1',
-        '^@tst/(.*)$': '<rootDir>/test/$1',
-    },
     testEnvironment: "jest-environment-node"
 };

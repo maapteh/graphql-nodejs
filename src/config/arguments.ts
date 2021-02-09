@@ -1,4 +1,4 @@
-import { Environment } from '@app/constants/environment';
+import { Environment } from '../constants/environment';
 
 const getRequiredEnvironmentVariable = (key: string): any => {
     const value = process.env[key];

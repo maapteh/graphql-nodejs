@@ -1,4 +1,4 @@
-import { builderFor } from '@tst/mocks/builder';
+import { builderFor } from '../../../../test/mocks/builder';
 
 export const buildService = builderFor<any>({
     code: 'code',

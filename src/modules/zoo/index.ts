@@ -1,3 +1,4 @@
+import 'graphql-import-node';
 import { createModule } from 'graphql-modules';
 import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge';
 import { loadFilesSync } from '@graphql-tools/load-files';
@@ -6,8 +7,11 @@ import { ZooProvider } from './providers/zoo';
 
 const resolversArray = loadFilesSync(`${__dirname}/resolvers`, {
     extensions: ['ts', 'js'],
+    useRequire: true
 });
-const typeDefsArray = loadFilesSync(`${__dirname}/schema/*.graphql`);
+const typeDefsArray = loadFilesSync(`${__dirname}/schema/*.graphql`, {
+    useRequire: true
+});
 const resolvers = mergeResolvers(resolversArray);
 const typeDefs = mergeTypeDefs(typeDefsArray, { useSchemaDefinition: false });
 

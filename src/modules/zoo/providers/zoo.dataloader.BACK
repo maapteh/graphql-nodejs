@@ -1,7 +1,7 @@
 import { Inject, Injectable, Scope, CONTEXT } from 'graphql-modules';
 import DataLoader from 'dataloader';
-import { fetch, handleResponse } from '@app/helpers/fetch';
-import { config } from '@app/config';
+import { fetch, handleResponse } from '../../helpers/fetch';
+import { config } from '../../config';
 import { normalizeCrocodile } from '../normalizers/normalize-crocodile';
 
 @Injectable({

@@ -2,8 +2,8 @@ import { AuthenticationError } from 'apollo-server-express';
 import nodeFetch, { Response, RequestInit } from 'node-fetch';
 import AbortController from 'abort-controller';
 import { logger } from '../logger';
-import { GenericError } from '@app/constants/error';
-import { HttpHeaderKey } from '@app/constants/http';
+import { GenericError } from '../../constants/error';
+import { HttpHeaderKey } from '../../constants/http';
 import { ServiceError } from '../error/service-error';
 import { ERROR } from '../error/error';
 

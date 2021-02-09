@@ -1,9 +1,9 @@
 import { Injectable, Scope, ExecutionContext } from 'graphql-modules';
 import {
     Crocodile, CrocodileResolvers,
-} from '@app/generated/_graphql';
-import { fetch, handleResponse } from '@app/helpers/fetch';
-import { config } from '@app/config';
+} from '../../../generated/_graphql';
+import { fetch, handleResponse } from '../../../helpers/fetch';
+import { config } from '../../../config';
 import { normalizeCrocodile, RawCrocodile } from '../normalizers/normalize-crocodile';
 
 @Injectable({

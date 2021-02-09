@@ -1,10 +1,4 @@
-if (process.env.NODE_ENV === 'production') {
-    // support @app imports when running directly from dist folder
-    require('module-alias/register');
-}
-
 import 'reflect-metadata';
-
 
 import express from 'express';
 import { GraphQLError, separateOperations } from 'graphql';
@@ -29,6 +23,7 @@ import { executor } from './executor';
 import { AppModule } from './modules';
 import { getApplicationArguments } from './config/arguments';
 import { createContext } from './context/create-context';
+import { createPluginRequestDidStart } from './plugins/create-request-did-start';
 
 const atob = require('atob');
 
@@ -74,11 +69,15 @@ const collectMetrics = args.prometheus === ON;
 var proxy = args.proxy;
 var agent = proxy ? new HttpsProxyAgent(proxy) : false;
 
+const requestDidStart = createPluginRequestDidStart(schema);
+const executorFn = executor(schema);
+
 const server = new ApolloServer({
     schema,
-    context: createContext,
 
-    executor: executor(schema),
+    // context: createContext,
+
+    executor: executorFn,
 
     // on production disable all development features
     introspection: isProduction ? false : tracing,
@@ -97,6 +96,7 @@ const server = new ApolloServer({
 
         return error;
     },
+
 
     // apollo studio configuration
     engine: args.apolloStudioKey
@@ -132,6 +132,7 @@ const server = new ApolloServer({
             }
         : false,
 
+    /*
     cacheControl: caching,
     cache: memcache ? new RedisCache(config.server.redis) : undefined,
     plugins: [
@@ -152,68 +153,10 @@ const server = new ApolloServer({
                 })
             : {},
         {
-            requestDidStart: () => ({
-                // errors after parsing
-                didResolveOperation({ request, document }) {
-                    logger.debug(
-                        {
-                            request,
-                        },
-                        'Incoming GraphQL Query',
-                    );
-
-                    // headers should include client information
-                    // to collect metrics
-                    if (
-                        isProduction &&
-                        request.http &&
-                        request.http.headers
-                    ) {
-                        if (
-                            !request.http.headers.get(
-                                HttpHeaderKey.ClientName,
-                            ) ||
-                            !request.http.headers.get(
-                                HttpHeaderKey.ClientVersion,
-                            ) ||
-                            request.http.headers.get(
-                                HttpHeaderKey.ClientName,
-                            ) === CLIENT_NAME_UNKNOWN
-                        ) {
-                            throw new GraphQLError(
-                                'Missing client identification',
-                            );
-                        }
-                    }
-
-                    // calculate the complexity of the query
-                    // and break the request if it's too high
-                    const query = request.operationName
-                        ? separateOperations(document)[
-                                request.operationName
-                            ]
-                        : document;
-
-                    const complexity = getComplexity({
-                        schema,
-                        query,
-                        variables: request.variables,
-                        estimators: [
-                            directiveEstimator(),
-                            simpleEstimator({ defaultComplexity: 0 }),
-                        ],
-                    });
-
-                    if (complexity >= MAX_COMPLEXITY) {
-                        throw new GraphQLError(
-                            `Your query complexity is too high: ${complexity}, max allowed complexity: ${MAX_COMPLEXITY}`,
-                        );
-                    }
-                    // TODO: implementing max hourly complexity rate?
-                },
-            }),
+            requestDidStart
         },
     ],
+    */
 });
 
 const app = express();
